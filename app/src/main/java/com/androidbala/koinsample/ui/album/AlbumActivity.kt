@@ -1,29 +1,29 @@
-package com.androidbala.koinsample.ui
+package com.androidbala.koinsample.ui.album
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.androidbala.koinsample.R
 import com.androidbala.koinsample.User
+import com.androidbala.koinsample.data.model.Albums
+import com.androidbala.koinsample.databinding.ActivityAlbumBinding
 import com.androidbala.koinsample.databinding.ActivityMainBinding
-import com.androidbala.koinsample.ui.user.UserViewModel
 import com.androidbala.koinsample.ui.user.adapter.UserAdapter
+import com.androidbala.koinsample.ui.user.viewmodel.UserViewModel
 import com.androidbala.koinsample.utils.Status
 import com.androidbala.koinsample.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class AlbumActivity: AppCompatActivity() {
 
-    private val binding by viewBinding(ActivityMainBinding::inflate)
-    private val mainViewModel : UserViewModel by viewModel()
-    private lateinit var adapter: UserAdapter
+    private val binding by viewBinding(ActivityAlbumBinding::inflate)
+    private val albumViewModel : AlbumViewModel by viewModel()
+    private lateinit var adapter: AlbumAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,33 +36,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = UserAdapter(arrayListOf())
+        binding.recyclerViewAlbum.layoutManager = LinearLayoutManager(this)
+        adapter = AlbumAdapter(arrayListOf())
 
-        binding.recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    binding.recyclerView.context,
-                    (binding.recyclerView.layoutManager as LinearLayoutManager).orientation
-                )
+        binding.recyclerViewAlbum.addItemDecoration(
+            DividerItemDecoration(
+                binding.recyclerViewAlbum.context,
+                (binding.recyclerViewAlbum.layoutManager as LinearLayoutManager).orientation
+            )
         )
 
-        binding.recyclerView.adapter = adapter
+        binding.recyclerViewAlbum.adapter = adapter
 
     }
 
     private fun setupObserver() {
-        mainViewModel.users.observe(this, Observer {
+        albumViewModel.albums.observe(this, Observer {
             when (it.status) {
 
                 Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
-                    binding.recyclerView.visibility = View.VISIBLE
+                    it.data?.let { albums -> renderList(albums) }
+                    binding.recyclerViewAlbum.visibility = View.VISIBLE
                 }
 
                 Status.LOADING -> {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.recyclerView.visibility = View.GONE
+                    binding.recyclerViewAlbum.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
@@ -73,9 +73,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun renderList(users: List<User>) {
-        adapter.addData(users)
+    private fun renderList(albums: List<Albums>) {
+        adapter.addData(albums)
         adapter.notifyDataSetChanged()
     }
+
 
 }

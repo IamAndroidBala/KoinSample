@@ -1,4 +1,4 @@
-package com.androidbala.koinsample.ui.user
+package com.androidbala.koinsample.ui.user.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +10,7 @@ import com.androidbala.koinsample.utils.NetworkHelper
 import com.androidbala.koinsample.utils.Resource
 import kotlinx.coroutines.launch
 
-class UserViewModel(private val mainRepository: MainRepository,
-                    private val networkHelper: NetworkHelper): ViewModel() {
+class UserViewModel(private val mainRepository: MainRepository, private val networkHelper: NetworkHelper): ViewModel() {
 
     private val _users = MutableLiveData<Resource<List<User>>>()
     val users: LiveData<Resource<List<User>>>

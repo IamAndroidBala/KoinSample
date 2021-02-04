@@ -2,8 +2,8 @@ package com.androidbala.koinsample.di.modules
 
 import android.content.Context
 import com.androidbala.koinsample.BuildConfig
-import com.androidbala.koinsample.data.api.APIHelper
-import com.androidbala.koinsample.data.api.APIService
+import com.androidbala.koinsample.data.api.ApiHelper
+import com.androidbala.koinsample.data.api.ApiService
 import com.androidbala.koinsample.data.api.ApiHelperImpl
 import com.androidbala.koinsample.utils.NetworkHelper
 import okhttp3.OkHttpClient
@@ -19,7 +19,7 @@ val appModule = module {
     single { provideApiService(get()) }
     single { provideNetworkHelper(androidContext()) }
 
-    single<APIHelper> {
+    single<ApiHelper> {
         return@single ApiHelperImpl(get())
     }
 }
@@ -34,13 +34,12 @@ private fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
     .Builder()
     .build()
 
-private fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit =
-    Retrofit.Builder()
+private fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create())
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .build()
 
-private fun provideApiService(retrofit: Retrofit): APIService = retrofit.create(APIService::class.java)
+private fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
 private fun provideNetworkHelper(context: Context) = NetworkHelper(context)

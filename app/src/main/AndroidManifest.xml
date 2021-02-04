@@ -16,13 +16,19 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.KoinSample"
         tools:targetApi="m">
-        <activity android:name=".ui.MainActivity">
+
+        <activity android:name=".ui.HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.album.AlbumActivity"/>
+
+        <activity android:name=".ui.user.UserListActivity"/>
+
     </application>
 
 </manifest>
